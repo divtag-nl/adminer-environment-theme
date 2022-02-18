@@ -1,0 +1,1 @@
+# adminer-environment-theme
