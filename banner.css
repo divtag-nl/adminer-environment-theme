@@ -1,0 +1,46 @@
+/* Environment banner, appended to the upstream theme by build.sh, which fills in the color and label per environment. */
+@keyframes marquee {
+    0% { text-indent: -100vw; }
+    to { text-indent: 100vw; }
+}
+
+@keyframes blink {
+    0%, to { color: #fff; }
+    50% { color: transparent; }
+}
+
+body::before {
+    animation: marquee 8s linear infinite, blink .4s linear infinite;
+    background: __COLOR__;
+    color: #fff;
+    content: "1!!! Warning - __LABEL__ !!!1";
+    display: block;
+    font-weight: 700;
+    height: 3rem;
+    overflow: hidden;
+    padding: .4em .5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* The upstream theme makes body a 100vh flex row (sidebar + content); put the banner on its own row above it. */
+@media (width >= 801px) {
+    body {
+        align-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    body::before {
+        flex: 0 0 100%;
+        order: -2;
+    }
+
+    #content, #foot {
+        height: calc(100vh - 3rem);
+    }
+
+    /* Keep wide content (tables) from wrapping onto a row of its own. */
+    #content {
+        flex-basis: 0;
+    }
+}
