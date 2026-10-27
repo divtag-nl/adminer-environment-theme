@@ -4,15 +4,19 @@ class CssThemeBasedOnEnvironment
 {
     function css(): array
     {
-        $username = $_GET["username"];
+        $name = $_GET["db"] ?? '';
 
-        if (empty($username)) {
+        if (empty($name)) {
+            $name = $_GET["username"] ?? '';
+        }
+
+        if (empty($name)) {
             return [];
         }
 
-        if (str_contains($username, 'staging') || str_contains($username, 'test')) {
+        if (str_contains($name, 'staging') || str_contains($name, 'test') || str_contains($name, 'beta')) {
             $filename = 'plugins/css/adminer-staging.css';
-        } elseif (str_contains($username, 'acceptance') || str_contains($username, 'accp')) {
+        } elseif (str_contains($name, 'acceptance') || str_contains($name, 'accp')) {
             $filename = 'plugins/css/adminer-acceptance.css';
         } else {
             $filename = 'plugins/css/adminer-production.css';
