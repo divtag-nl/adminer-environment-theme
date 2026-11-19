@@ -23,10 +23,13 @@ class CssThemeBasedOnEnvironment
         }
 
 
-        if (file_exists($filename)) {
-            $return[] = "$filename?v=" . crc32(file_get_contents($filename));
+        if (!file_exists($filename)) {
+            return [];
         }
 
-        return $return ?? [];
+        // The value '' tells Adminer the stylesheet supports light and dark mode, so it also loads its own
+        // dark.css (with the dark syntax highlighting colors) under prefers-color-scheme: dark.
+        // A plain list is treated as light-only, which leaves the SQL highlighting dark on a dark background.
+        return ["$filename?v=" . crc32(file_get_contents($filename)) => ''];
     }
 }
